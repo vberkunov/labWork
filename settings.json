@@ -1,0 +1,11 @@
+{
+  "input" : {
+    "csv" : "C:\\Users\\vital\\PycharmProjects\\labWork\\lab5.csv",
+    "json" : "C:\\Users\\vital\\PycharmProjects\\labWork\\lab5.json",
+    "encoding" : "utf8"
+  },
+  "output" : {
+    "fname" : "",
+    "encoding" : "utf8"
+  }
+}
