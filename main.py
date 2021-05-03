@@ -43,4 +43,4 @@ if __name__ == '__main__':
     if len(sys.argv) > 2:
         print_error()
     if len(sys.argv) == 2:
-        process(sys.argv[1])
+        process(sys.argv[2])
