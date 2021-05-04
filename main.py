@@ -27,7 +27,8 @@ def process(path):
         builder = Builder()
         builder.load(info, settings.get_path_csv(), settings.get_path_json(), settings.get_encoding())
         info.parse_data()
-        info.calculate()
+        info.processing()
+
 
 
 # except Exception:
@@ -43,4 +44,4 @@ if __name__ == '__main__':
     if len(sys.argv) > 2:
         print_error()
     if len(sys.argv) == 2:
-        process(sys.argv[2])
+        process(sys.argv[1])

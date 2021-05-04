@@ -1,35 +1,20 @@
-from lesson_plan import LessonPlan
-from lesson_plan_list import LessonPlanList
-
 
 class Lesson:
-    def __init__(self, audience, lesson_type, subject, num_of_class, lesson_plan: LessonPlan):
-        self.__num_of_class = num_of_class
-        self.__lesson_plan = LessonPlanList()
-        self.__lesson_plan.add_to_lesson_plan_list(lesson_plan)
-        self.__subject = subject
-        self.__lesson_type = lesson_type
+    def __init__(self, audience, class_type, school_week, day_of_week, num_of_class, student):
         self.__audience = audience
-        self.__max_day = 5
-        self.__max_week = 19
+        self.__class_type = class_type
+        self.__school_week = school_week
+        self.__day_of_week = day_of_week
+        self.__num_of_class = num_of_class
+        self.__student_list = list()
+        self.__student_list.append(student)
 
-    def getSubject(self):
-        return self.__subject
 
-    def getLessonType(self):
-        return self.__lesson_type
+    def get_student_list(self):
+        return self.__student_list
 
-    def calc_all_lesson(self):
-        return self.__max_day * self.__max_week
 
-    def calc_num_of_visit(self):
-        return self.__lesson_plan.get_list_size()
 
-    def calc_pass(self):
-        num_of_lessons: int = self.calc_all_lesson()
-        num_of_visit: int = self.calc_num_of_visit()
 
-        if num_of_visit > (num_of_lessons / 2):
-            return num_of_lessons - num_of_visit
-        else:
-            return 0
+
+
