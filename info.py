@@ -8,9 +8,10 @@ from subject import Subject
 class Info:
     def __init__(self):
 
-        self.__subject_list = list()
+        self.__student_list = list()
         self.__i = 0
         self.__information = list()
+        self.__average_pass = 0;
 
     def __iter__(self):
         return self
@@ -43,45 +44,47 @@ class Info:
                 i += 1
         return i
 
-    def check_subject(self, subject):
-        for sub in self.__subject_list:
-            if sub.get_subject() == subject.get_subject():
-                print("+")
+    def check_student(self, s: Student):
+        for student in self.__student_list:
+            if student.get_surname() == s.get_surname() and student.get_group_code() == s.get_group_code():
                 return False
         return True
 
     def parse_data(self):
         for row in self.__information:
-            student = Student(row[3], row[2], row[8], row[9])
-            lesson = Lesson(row[0], row[1], row[5], row[6], row[7], student)
-            subject = Subject(row[4], row[9], lesson, student)
-            if self.check_subject(subject):
-                self.__subject_list.append(subject)
+            lesson = Lesson(row[0], row[1], row[5], row[6], row[7])
+            subject = Subject(row[4], row[9], lesson)
+            student = Student(row[3], row[2], row[8], row[9], subject)
+            if self.check_student(student):
+                self.__student_list.append(student)
             else:
-                for sub in self.__subject_list:
-                    if sub.get_subject() == subject:
-                        sub.get_lesson_list().append(lesson)
+                for stud in self.__student_list:
+                    if stud.get_surname() == student.get_surname() and stud.get_group_code() == student.get_group_code():
+                        stud.get_subject_list().append(subject)
 
     def processing(self):
-        self.set_max_visit()
-        for subject in self.__subject_list:
-            self.get_pass_count(subject)
+        self.check_average_pass()
+        self.check_visit()
 
-    def set_max_visit(self):
-        for subject in self.__subject_list:
-            subject.set_max_visit()
+    def check_average_pass(self):
+        max_pass: int = 0
+        for stud in self.__student_list:
+            max_pass += stud.calculate_pass()
+        self.__average_pass = max_pass / len(self.__student_list)
 
-    def get_pass_count(self, subject):
-        pass_subject = dict()
-        for student in subject.get_subscriber_list():
+    def check_visit(self):
+        for stud in self.__student_list:
+            if stud.calculate_pass() < self.__average_pass:
+                self.print_student_info(stud)
+                self.print_lesson_info(stud)
 
-            print(student.getSurname())
-            pass_count = 0
-            pass_dict = dict()
+    def print_student_info(self, stud):
+        print(stud.get_surname() + " " + stud.get_name() + " " + str(stud.calculate_pass()) + " " + str(round(self.__average_pass, 1)))
+
+    def print_lesson_info(self, stud):
+        for subject in stud.get_subject_list():
             for lesson in subject.get_lesson_list():
-
-                if student not in lesson.get_student_list():
-                    pass_count += 1
-                pass_dict = dict({student.getSurname(): pass_count})
-            pass_subject = dict({subject.get_subject(): pass_dict})
-            print(pass_subject)
+                print(
+                    lesson.get_school_week() + " " + lesson.get_day_of_week() + " "
+                    + lesson.get_num_of_class() + " " + lesson.get_audience() + " "
+                    + subject.get_subject() + " " + lesson.get_class_type())
