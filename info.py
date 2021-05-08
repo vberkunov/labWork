@@ -1,6 +1,7 @@
 from statistics import mean
 
 from lesson import Lesson
+from output import Output
 from student import Student
 from subject import Subject
 
@@ -79,12 +80,21 @@ class Info:
                 self.print_lesson_info(stud)
 
     def print_student_info(self, stud):
-        print(stud.get_surname() + " " + stud.get_name() + " " + str(stud.calculate_pass()) + " " + str(round(self.__average_pass, 1)))
+        print(stud.get_surname() + " " + stud.get_name() + " " + str(stud.calculate_pass()) + " " + str(
+            round(self.__average_pass, 1)))
 
     def print_lesson_info(self, stud):
+        out_list = []
         for subject in stud.get_subject_list():
             for lesson in subject.get_lesson_list():
-                print(
-                    lesson.get_school_week() + " " + lesson.get_day_of_week() + " "
-                    + lesson.get_num_of_class() + " " + lesson.get_audience() + " "
-                    + subject.get_subject() + " " + lesson.get_class_type())
+                output = Output(lesson.get_school_week(), lesson.get_day_of_week(),
+                                lesson.get_num_of_class(), lesson.get_audience(),
+                                subject.get_subject(), lesson.get_class_type())
+                out_list.append(output)
+        sorted(out_list, key=lambda out: out.get_class_type())
+        sorted(out_list, key=lambda out: out.get_subject())
+        sorted(out_list, key=lambda out: out.get_school_week())
+        sorted(out_list, key=lambda out: out.get_day_of_week())
+        sorted(out_list, key=lambda out: out.get_num_of_class())
+        for el in out_list:
+            el.print()
